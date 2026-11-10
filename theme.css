@@ -8,9 +8,8 @@
  */
 
 section {
-  /* Change these two values to choose the header and main backgrounds. */
-  --header-bg: #ffffff;
-  --main-bg: #fbfbfb;
+  /* Header and main always share the selected slide background. */
+  --main-bg: #ffffff;
   --paper: var(--main-bg);
   --ink: #111111;
   --line: #242424;
@@ -60,7 +59,7 @@ section {
   isolation: isolate;
 }
 
-/* Slide background selection: <!-- _class: background gray|white --> */
+/* Slide-wide background selection: <!-- _class: background gray|white --> */
 section.background.gray {
   --main-bg: #fbfbfb;
 }
@@ -69,12 +68,7 @@ section.background.white {
   --main-bg: #ffffff;
 }
 
-/*
- * The first paragraph immediately after h1 is the slide description.
- * Its background extends upward to the slide edge, so the boundary
- * follows the description's actual height without wrapping Markdown
- * in HTML or hard-coding a fixed header height.
- */
+/* The first paragraph after h1 remains the description; no dividing line. */
 section > h1 {
   z-index: 3;
 }
@@ -83,19 +77,6 @@ section > h1 + p {
   position: relative;
   z-index: 2;
   padding-bottom: 16px;
-}
-
-section > h1 + p::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: -1400px;
-  right: -1400px;
-  bottom: -9px;
-  height: 1400px;
-  background: var(--header-bg);
-  border-bottom: 2px solid #b5b5b5;
-  pointer-events: none;
 }
 
 /* Common frame: top-right neutral mark, footer, bottom playback-style progress. */
@@ -601,11 +582,11 @@ section > .box.paper {
   border: 1px solid #dfe3e8;
 }
 
-/* Optional soft shadow on a Markdown card, a box of cards, or a paper panel. */
+/* Optional side-and-bottom shadow; negative spread prevents top-side shadow. */
 section blockquote:has(.hover),
 section .box.hover > blockquote,
 section > .box.paper.hover {
-  box-shadow: 0 3px 14px rgba(27, 43, 69, 0.08);
+  box-shadow: 0 7px 10px -5px rgba(27, 43, 69, 0.14);
 }
 
 section span.hover {
