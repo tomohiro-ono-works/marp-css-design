@@ -586,7 +586,7 @@ section > .box.paper {
 section blockquote:has(.hover),
 section .box.hover > blockquote,
 section > .box.paper.hover {
-  box-shadow: 0 7px 10px -5px rgba(27, 43, 69, 0.14);
+  box-shadow: 0 7px 10px -5px rgba(27, 43, 69, 0.20);
 }
 
 section span.hover {
@@ -629,6 +629,11 @@ section .box > blockquote:not(:has(*)) {
   padding: 0;
   background: transparent;
   border: 0;
+}
+
+/* Blank spacers stay invisible even when their parent enables hover shadows. */
+section .box.hover > blockquote:not(:has(*)) {
+  box-shadow: none;
 }
 
 section .box.flow > blockquote {
