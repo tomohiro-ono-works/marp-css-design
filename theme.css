@@ -1,0 +1,792 @@
+/* @theme blackline */
+@import 'default';
+
+/*
+ * Marp theme: monochrome technical slides
+ * Original implementation informed by the user-provided layout references.
+ * No proprietary logo or illustration is included.
+ */
+
+section {
+  /* Change these two values to choose the header and main backgrounds. */
+  --header-bg: #ffffff;
+  --main-bg: #fbfbfb;
+  --paper: var(--main-bg);
+  --ink: #111111;
+  --line: #242424;
+  --muted: #777777;
+  --soft: #f2f2f2;
+  --pale-aqua: #e9f8f7;
+  --accent: #16aea4;
+  --progress-fill: #1b2b45;
+  --progress-track: #d9dde4;
+
+  /* Six object colors, each with a dark and light variant. */
+  --tone-turquoise-dark: #009287;
+  --tone-turquoise-light: #edfdfc;
+  --tone-aqua-dark: #44b3ba;
+  --tone-aqua-light: #d8f4f1;
+  --tone-gray-dark: #95999a;
+  --tone-gray-light: #f6f6f6;
+  --tone-coral-dark: #de5251;
+  --tone-coral-light: #fbe6e5;
+  --tone-mono-dark: #171717;
+  --tone-mono-light: #d9d9d9;
+  --tone-yellow-dark: #eae68c;
+  --tone-yellow-light: #faf8e0;
+
+  /* Card-only deep shades: each keeps white body text legible. */
+  --card-turquoise-dark: #00786f;
+  --card-aqua-dark: #167d86;
+  --text-aqua-dark: #126b75;
+  --card-gray-dark: #606668;
+  --card-coral-dark: #b53e3d;
+  --card-mono-dark: #171717;
+  --card-yellow-dark: #75721f;
+
+}
+
+section {
+  background: var(--main-bg);
+  background-image: linear-gradient(to top, var(--progress-track) 0 7px, transparent 7px);
+  color: var(--ink);
+  font-family: "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 23px;
+  line-height: 1.36;
+  padding: 36px 42px 50px;
+  position: relative;
+  place-content: start center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Slide background selection: <!-- _class: background gray|white --> */
+section.background.gray {
+  --main-bg: #fbfbfb;
+}
+
+section.background.white {
+  --main-bg: #ffffff;
+}
+
+/*
+ * The first paragraph immediately after h1 is the slide description.
+ * Its background extends upward to the slide edge, so the boundary
+ * follows the description's actual height without wrapping Markdown
+ * in HTML or hard-coding a fixed header height.
+ */
+section > h1 {
+  z-index: 3;
+}
+
+section > h1 + p {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 16px;
+}
+
+section > h1 + p::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -1400px;
+  right: -1400px;
+  bottom: -9px;
+  height: 1400px;
+  background: var(--header-bg);
+  border-bottom: 2px solid #b5b5b5;
+  pointer-events: none;
+}
+
+/* Common frame: top-right neutral mark, footer, bottom playback-style progress. */
+section::before {
+  content: "";
+  position: absolute;
+  top: 29px;
+  right: 38px;
+  width: 18px;
+  height: 18px;
+  border-right: 2px solid var(--line);
+  border-top: 2px solid var(--line);
+  transform: rotate(14deg);
+  z-index: 4;
+}
+
+section::after {
+  /* The attribute must remain in content for Marpit pagination support. */
+  content: attr(data-marpit-pagination);
+  display: block;
+  font-size: 0;
+  color: transparent;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: 0;
+  height: 7px;
+  width: var(--progress-width, 0%); /* Fallback on older browsers. */
+  width: calc(100% * attr(data-marpit-pagination type(<number>), 0) / attr(data-marpit-pagination-total type(<number>), 1));
+  background: var(--progress-fill);
+  z-index: 4;
+}
+
+section > h1 {
+  position: relative;
+  padding-left: 20px;
+  margin: 0 42px 14px 0;
+  color: var(--ink);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.24;
+}
+
+section > h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.08em;
+  width: 10px;
+  height: 0.95em;
+  background: var(--ink);
+}
+
+section > p:first-of-type {
+  margin: 0 0 20px 10px;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+section h2 {
+  font-size: 27px;
+  font-weight: 800;
+  margin: 20px 0 12px;
+}
+
+section h3 {
+  font-size: 23px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+/* Adjacent Markdown headings form one uninterrupted heading group.
+ * Any paragraph or other element between them restores normal spacing.
+ */
+section :is(h1,h2,h3,h4,h5,h6):has(+ :is(h1,h2,h3,h4,h5,h6)) {
+  margin-bottom: 0;
+}
+
+section :is(h1,h2,h3,h4,h5,h6) + :is(h1,h2,h3,h4,h5,h6) {
+  margin-top: 0;
+}
+
+section p,
+section li {
+  color: var(--ink);
+}
+
+section ul,
+section ol {
+  margin: 10px 0 12px 24px;
+}
+
+section li {
+  margin: 8px 0;
+}
+
+section li::marker {
+  color: var(--ink);
+}
+
+section strong {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+section blockquote {
+  display: block;
+  box-sizing: border-box;
+  margin: 12px 0;
+  padding: 18px 21px;
+  border: 1.8px solid var(--line);
+  border-radius: 9px;
+  background: #ffffff;
+  font-size: 20px;
+  line-height: 1.37;
+}
+
+section blockquote p {
+  margin: 0 0 9px;
+}
+
+section blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+section blockquote p:first-child strong {
+  font-size: 23px;
+}
+
+/* Per-object palette. Add an empty tone-token span inside a blockquote
+   or a visible tone-chip span wherever a colored label is wanted. */
+section .tone-token {
+  display: none;
+}
+
+section .tone-chip {
+  display: inline-block;
+  margin: 2px 4px 2px 0;
+  padding: 3px 11px;
+  border: 1.2px solid var(--tone-line, var(--line));
+  border-radius: 999px;
+  background: var(--tone-fill, #ffffff);
+  color: var(--tone-ink, var(--ink));
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+section blockquote:has(.tone-token) {
+  background: var(--tone-fill, #ffffff);
+  border-color: var(--tone-line, var(--line));
+  color: var(--tone-ink, var(--ink));
+}
+
+section blockquote:has(.tone-token) p,
+section blockquote:has(.tone-token) li,
+section blockquote:has(.tone-token) strong {
+  color: var(--tone-ink, var(--ink));
+}
+
+section .tone-turquoise-dark,
+section blockquote:has(.tone-token.tone-turquoise-dark) {
+  --tone-fill: var(--tone-turquoise-dark);
+  --tone-ink: #ffffff;
+  --tone-line: #007468;
+}
+
+section .tone-turquoise-light,
+section blockquote:has(.tone-token.tone-turquoise-light) {
+  --tone-fill: var(--tone-turquoise-light);
+  --tone-ink: var(--ink);
+  --tone-line: var(--tone-turquoise-dark);
+}
+
+section .tone-aqua-dark,
+section blockquote:has(.tone-token.tone-aqua-dark) {
+  --tone-fill: var(--tone-aqua-dark);
+  --tone-ink: var(--ink);
+  --tone-line: #25979f;
+}
+
+section .tone-aqua-light,
+section blockquote:has(.tone-token.tone-aqua-light) {
+  --tone-fill: var(--tone-aqua-light);
+  --tone-ink: var(--ink);
+  --tone-line: var(--tone-aqua-dark);
+}
+
+section .tone-gray-dark,
+section blockquote:has(.tone-token.tone-gray-dark) {
+  --tone-fill: var(--tone-gray-dark);
+  --tone-ink: var(--ink);
+  --tone-line: #747879;
+}
+
+section .tone-gray-light,
+section blockquote:has(.tone-token.tone-gray-light) {
+  --tone-fill: var(--tone-gray-light);
+  --tone-ink: var(--ink);
+  --tone-line: var(--tone-gray-dark);
+}
+
+section .tone-coral-dark,
+section blockquote:has(.tone-token.tone-coral-dark) {
+  --tone-fill: var(--tone-coral-dark);
+  --tone-ink: #ffffff;
+  --tone-line: #c53d3c;
+}
+
+section .tone-coral-light,
+section blockquote:has(.tone-token.tone-coral-light) {
+  --tone-fill: var(--tone-coral-light);
+  --tone-ink: var(--ink);
+  --tone-line: var(--tone-coral-dark);
+}
+
+section .tone-mono-dark,
+section blockquote:has(.tone-token.tone-mono-dark) {
+  --tone-fill: var(--tone-mono-dark);
+  --tone-ink: #ffffff;
+  --tone-line: var(--tone-mono-dark);
+}
+
+section .tone-mono-light,
+section blockquote:has(.tone-token.tone-mono-light) {
+  --tone-fill: var(--tone-mono-light);
+  --tone-ink: var(--ink);
+  --tone-line: #989898;
+}
+
+section .tone-yellow-dark,
+section blockquote:has(.tone-token.tone-yellow-dark) {
+  --tone-fill: var(--tone-yellow-dark);
+  --tone-ink: var(--ink);
+  --tone-line: #c3bb55;
+}
+
+section .tone-yellow-light,
+section blockquote:has(.tone-token.tone-yellow-light) {
+  --tone-fill: var(--tone-yellow-light);
+  --tone-ink: var(--ink);
+  --tone-line: #d5cf9e;
+}
+
+/* Inline code becomes an understated label; fenced code remains monospaced. */
+section :not(pre) > code {
+  color: var(--ink);
+  background: var(--pale-aqua);
+  border: 1.2px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-family: inherit;
+  font-size: 0.75em;
+  white-space: nowrap;
+}
+
+section pre {
+  background: var(--soft);
+  color: var(--ink);
+  border: 1.7px solid var(--line);
+  border-radius: 9px;
+  padding: 18px 20px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+section pre code {
+  color: var(--ink);
+}
+
+section table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 21px;
+  margin: 16px 0;
+}
+
+section th,
+section td {
+  padding: 13px 17px;
+  background: #ffffff;
+  color: var(--ink);
+  border: 1.7px solid var(--line);
+  vertical-align: middle;
+}
+
+section th {
+  background: var(--soft);
+  font-weight: 800;
+}
+
+section a {
+  color: #197bc3;
+  text-decoration: none;
+}
+
+section img {
+  max-width: 100%;
+  max-height: 440px;
+  object-fit: contain;
+}
+
+section footer {
+  position: absolute;
+  left: 26px;
+  bottom: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Cover and chapter: left media pane 40%, right h1 / h2 pane 60%. */
+section.cover,
+section.chapter {
+  display: flex;
+  padding: 0;
+}
+
+section.cover > .hero,
+section.chapter > .hero {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  gap: 0;
+}
+
+section.cover .hero-media,
+section.chapter .hero-media,
+section.cover .hero-copy,
+section.chapter .hero-copy {
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 52px;
+  min-width: 0;
+}
+
+section.cover .hero-media {
+  background: var(--main-bg);
+}
+
+section.chapter .hero-media {
+  background: var(--progress-fill);
+}
+
+section.cover .hero-media,
+section.chapter .hero-media {
+  align-items: center;
+  text-align: center;
+}
+
+section.cover .hero-media p,
+section.chapter .hero-media p {
+  margin: 0;
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+section.chapter .hero-media p,
+section.chapter .hero-media strong {
+  color: #ffffff;
+}
+
+section.cover .hero-media img,
+section.chapter .hero-media img {
+  max-width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+section.cover .hero-copy,
+section.chapter .hero-copy {
+  align-items: stretch;
+  gap: 0;
+  background: #ffffff;
+}
+
+section.cover .hero-copy h1,
+section.chapter .hero-copy h1 {
+  position: relative;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+section.cover .hero-copy h1 {
+  font-size: 53px;
+}
+
+section.chapter .hero-copy h1 {
+  font-size: 59px;
+}
+
+section.cover .hero-copy h1::before,
+section.chapter .hero-copy h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.08em;
+  width: 10px;
+  height: 0.95em;
+  background: var(--ink);
+}
+
+section.cover .hero-copy h2,
+section.chapter .hero-copy h2 {
+  margin: 0;
+  color: #555555;
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+section.chapter footer {
+  color: #ffffff;
+}
+
+section.message > blockquote {
+  padding: 60px 42px;
+  text-align: center;
+  font-size: 46px;
+  font-weight: 800;
+}
+
+section.message > blockquote p:first-child strong {
+  font-size: 46px;
+}
+
+/* Arbitrarily nestable layout wrappers for Markdown blockquote cards.
+ * A horizontal box divides its available width evenly between direct children.
+ * A vertical box stacks children at the full width of its parent.
+ */
+section .box {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  align-items: stretch;
+}
+
+section .box.horizontal {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+/* These two intentionally use flex for their 40:60 / centered layouts. */
+section .box.horizontal.hero,
+section .box.horizontal.center {
+  display: flex;
+  flex-direction: row;
+}
+
+section .box.vertical {
+  flex-direction: column;
+}
+
+section .box > blockquote,
+section .box > .box {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+}
+
+section .box.horizontal > blockquote,
+section .box.horizontal > .box {
+  flex: 1 1 0;
+}
+
+/* Only hero panels are unequal; ordinary horizontal boxes remain equal. */
+section .box.horizontal.hero > .hero-media {
+  flex: 0 0 40%;
+}
+
+section .box.horizontal.hero > .hero-copy {
+  flex: 0 0 60%;
+}
+
+/* Large white content canvas on the light-gray slide body.
+ * The section loses its default 42px side insets only for this pattern:
+ * 2.5% of the 1280px slide on either side = a 95%-width panel.
+ */
+section:has(> .box.paper) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-inline: 2.5%;
+  padding-bottom: 32px;
+}
+
+section > .box.paper {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  margin-top: 32px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #dfe3e8;
+}
+
+/* Optional soft shadow on a Markdown card, a box of cards, or a paper panel. */
+section blockquote:has(.hover),
+section .box.hover > blockquote,
+section > .box.paper.hover {
+  box-shadow: 0 3px 14px rgba(27, 43, 69, 0.08);
+}
+
+section span.hover {
+  display: none;
+}
+
+section .box.vertical > blockquote,
+section .box.vertical > .box {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+/* Optional reusable sizing and alignment, independent of slide pattern. */
+section .box.medium {
+  min-height: 183px;
+}
+
+section .box.tall {
+  min-height: 355px;
+}
+
+section .box.horizontal.center {
+  justify-content: center;
+}
+
+section .box.horizontal.center > blockquote,
+section .box.horizontal.center > .box {
+  flex: 0 1 56%;
+  text-align: center;
+  background: var(--soft);
+}
+
+section .box.vertical.equal > blockquote,
+section .box.vertical.equal > .box {
+  flex: 1 1 0;
+}
+
+/* A bare Markdown ">" is an invisible, equal-share placeholder. */
+section .box > blockquote:not(:has(*)) {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+section .box.flow > blockquote {
+  position: relative;
+}
+
+section .box.flow > blockquote:not(:last-of-type)::after {
+  content: "→";
+  position: absolute;
+  top: 43%;
+  right: -27px;
+  z-index: 2;
+  padding: 0 1px;
+  background: var(--paper);
+  font-weight: 800;
+  font-size: 25px;
+}
+
+section.steps-vertical > ol {
+  counter-reset: step;
+  list-style: none;
+  margin: 10px 0;
+  padding: 0 35px;
+}
+
+section.steps-vertical > ol > li {
+  counter-increment: step;
+  position: relative;
+  border: 1.6px solid var(--line);
+  border-radius: 9px;
+  padding: 13px 18px 13px 72px;
+  background: #ffffff;
+  margin: 0 0 18px;
+  min-height: 49px;
+}
+
+section.steps-vertical > ol > li::before {
+  content: counter(step);
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #ffffff;
+  text-align: center;
+  line-height: 38px;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+section table td:first-child {
+  width: 24%;
+  background: var(--soft);
+  font-weight: 800;
+}
+
+section.object-callout > blockquote {
+  background: var(--soft);
+  border-left: 10px solid var(--ink);
+}
+
+section.object-guide > blockquote {
+  max-width: 800px;
+}
+
+/* More compact variant, e.g. <!-- _class: dense --> on a text-rich slide. */
+section.dense {
+  font-size: 20px;
+}
+
+section.dense blockquote,
+section.dense table {
+  font-size: 18px;
+}
+
+/* Selected colors take precedence over layout-specific card fills. */
+section[class] blockquote:has(.tone-token) {
+  background: var(--tone-fill, #ffffff);
+  border-color: var(--tone-line, var(--line));
+}
+
+/* Light cards use the original pastel shade, hue-matched dark text, no edge. */
+section blockquote:has(.tone-token[class*="-light"]) {
+  border: none;
+}
+
+section blockquote:has(.tone-token.tone-turquoise-light) {
+  --tone-ink: var(--card-turquoise-dark);
+}
+
+section blockquote:has(.tone-token.tone-aqua-light) {
+  --tone-ink: var(--text-aqua-dark);
+}
+
+section blockquote:has(.tone-token.tone-gray-light) {
+  --tone-ink: var(--card-gray-dark);
+}
+
+section blockquote:has(.tone-token.tone-coral-light) {
+  --tone-ink: var(--card-coral-dark);
+}
+
+section blockquote:has(.tone-token.tone-mono-light) {
+  --tone-ink: var(--card-mono-dark);
+}
+
+section blockquote:has(.tone-token.tone-yellow-light) {
+  --tone-ink: var(--card-yellow-dark);
+}
+
+/* Deep card-only shades preserve readable white type for every color. */
+section blockquote:has(.tone-token.tone-turquoise-dark) {
+  --tone-fill: var(--card-turquoise-dark);
+  --tone-ink: #ffffff;
+}
+
+section blockquote:has(.tone-token.tone-aqua-dark) {
+  --tone-fill: var(--card-aqua-dark);
+  --tone-ink: #ffffff;
+}
+
+section blockquote:has(.tone-token.tone-gray-dark) {
+  --tone-fill: var(--card-gray-dark);
+  --tone-ink: #ffffff;
+}
+
+section blockquote:has(.tone-token.tone-coral-dark) {
+  --tone-fill: var(--card-coral-dark);
+  --tone-ink: #ffffff;
+}
+
+section blockquote:has(.tone-token.tone-mono-dark) {
+  --tone-fill: var(--card-mono-dark);
+  --tone-ink: #ffffff;
+}
+
+section blockquote:has(.tone-token.tone-yellow-dark) {
+  --tone-fill: var(--card-yellow-dark);
+  --tone-ink: #ffffff;
+}
