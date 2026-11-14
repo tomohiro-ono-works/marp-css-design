@@ -1,113 +1,90 @@
 # Marp Markdown Pattern Kit
 
-ユーザー提供の技術解説スライドを参考にした、**Markdown中心**のMarpテンプレートです。
+Markdown主体で資料を作るMarpスライドデザイン集です。**v2ではカード・縦横配置を `:::`、ラベルをインラインの囲み記法**で作成できます。Node.js以外の変換用ライブラリは不要です。
 
 ## ファイル構成
 
-| ファイル | 目的 |
+| ファイル | 役割 |
 |---|---|
-| `01-common-rules.md` | 共通ルール、対応表、運用上の注意 |
-| `04-container-notation.md` | 次期 `:::` コンテナ表記仕様（設計案。描画処理は未実装） |
-| `02-slide-patterns.md` | 用途別の16種類のスライド見本（Marp形式） |
-| `03-object-patterns.md` | 再利用するオブジェクトの見本（水平・垂直・入れ子・空白カードを含む12種、Marp形式） |
-| `theme.css` | 共通テーマ＋各スライド構成のCSS |
-| `.vscode/settings.json` | Marp for VS Codeでテーマを認識させる設定 |
-
-**新しい表記ルール案**：カード・横／縦配置・入れ子・白いキャンバスなどの複数行・構造的な記法を `:::` コンテナに集約し、横並びは `horizontal` / `h`、縦並びは `vertical` / `v` の両方に対応します。単語・短文の色付きラベルは `[注意]{.yellow-dark}` のようなインラインの囲み記法を使用し、色は親カードから継承せずラベルごとに独立指定します。仕様は [`04-container-notation.md`](./04-container-notation.md) にまとめています。**現時点では設計案であり**、下記の既存スライドや公式VSCodeプレビューは従来のHTML方式です。 `:::` で描画するにはMarkdown-it拡張または変換処理が必要です。
+| `02-slide-patterns.source.md` | 編集用：16種類のスライド見本（新記法） |
+| `03-object-patterns.source.md` | 編集用：12種類のオブジェクト見本（新記法） |
+| `02-slide-patterns.md` | 自動生成：公式Marpプレビュー・PDF出力用 |
+| `03-object-patterns.md` | 自動生成：公式Marpプレビュー・PDF出力用 |
+| `theme.css` | テーマ・カラー・配置・影の共通CSS |
+| `scripts/build-marp.mjs` | `:::` とインラインラベルの変換プログラム |
+| `04-container-notation.md` | 新しい表記ルール・入れ子構文 |
+| `01-common-rules.md` | 既存テーマの共通デザインルール |
+| `.vscode/settings.json` | Marp for VS Codeに `theme.css` を設定 |
+| `.vscode/tasks.json` | VSCodeのビルド／監視タスク |
+| `tests/build-marp.test.mjs` | 新記法の変換テスト |
 
 ## VSCodeでの使用方法
 
-1. このフォルダをVSCodeで開く。
-2. 公式の「Marp for VS Code」拡張機能を使用する。
-3. `02-slide-patterns.md` を開き、Markdownプレビューを表示する。
-4. 必要なスライドをコピーし、本文や `div` の配置を編集する。表紙・章扉などは `<!-- _class: ... -->` も編集する。
+1. このリポジトリをVSCodeで開き、公式 **Marp for VS Code** 拡張機能を使用します。
+2. `02-slide-patterns.source.md` または `03-object-patterns.source.md` を編集します。
+3. ターミナルで `npm run build` を実行します。継続的に編集する場合は **`npm run watch`** を実行すると、保存時に自動でプレビュー用Markdownが更新されます。
+4. `02-slide-patterns.md` または `03-object-patterns.md` を開き、Marpプレビューを表示します。
 
-`theme.css` は `.vscode/settings.json` に登録済みです。同時に、ボックスの `div` を使えるよう `markdown.marp.enableHtml` も有効化しています。独立したMarkdownファイルで使うときも、先頭に後述のフロントマターを付けます。
+VSCodeの **「ターミナル → タスクの実行」** からも `Marp: Build preview` と `Marp: Watch preview` を選択できます。
 
-通常スライドの背景色は `<!-- _class: background gray -->`（ヘッダー・本文とも薄グレー）と `<!-- _class: background white -->`（両方とも白）で選べます。未指定時は白です。ヘッダーと本文の境界線は表示しません。表紙と章扉は左右2分割で、章扉の左背景は濃紺（`#1B2B45`）です。
+**注意：`*.source.md` が編集対象、通常の `*.md` は生成結果です。** 生成結果を直接編集しても、次のビルドで上書きされます。変換プログラムはNode.js 18以降で動作し、依存パッケージのインストールは不要です。
 
-`02-slide-patterns.md` の03〜16には背景指定を明記しています。04番は `background white`、その他の通常スライドは `background gray` の見本です。
+## 新しい表記の例
 
-### オブジェクトの色を選ぶ
+~~~md
+<!-- _class: background gray -->
 
-`theme.css` には青緑・水色・グレー・赤・モノクロ・黄色の6系統それぞれに濃淡2種（計12色）を定義しています。クラス一覧は `01-common-rules.md` を参照してください。
+# カードの比較
 
-```md
-> <span class="tone-token tone-coral-light"></span> **● カードのタイトル**
->
-> カードの背景が薄い赤に変わります。
+内容を横に並べて比較します。
 
-<span class="tone-chip tone-turquoise-dark">重要</span>
-```
+:::: h
 
-色指定用の空の `span` は画面に表示されません。追加の拡張機能や前処理は不要です。
+::: card turquoise-light hover
 
-カードに薄い影を付けるときだけ、引用内に `<span class="hover"></span>` を入れます。影は左右と下だけに付き、上には付きません。省略したカードには影が付きません。ボックス内の全カードに影を付ける場合は `class="box horizontal hover"` のように指定できます。
+**● 左カード**
 
-濃色カードは白文字が読める深い色に自動調整されます（ラベルの色値とは一部異なります）。淡色カードは薄い背景・同系統の濃い文字色を使用し、枠線を表示しません。
+進捗：[完了]{.coral-dark}
 
-### 汎用カードの並べ方
+:::
 
-`<div class="box horizontal">`（横並び・均等分割）と `<div class="box vertical">`（縦並び・全幅）で配置し、カードはMarkdownの引用 `>` で記述します。`div` 同士を入れ子にできるため、横2列の片側に縦3枚を並べるなど、自由な組み合わせが可能です。横3枚なら3等分で、固定幅はありません。色は従来の `tone-token` を使用できます。
+::: card coral-light
 
-```md
-<div class="box horizontal">
+**● 右カード**
 
-> **カードA**
->
-> Markdownの本文
+進捗：[確認中]{.yellow-light}
 
-<div class="box vertical">
+:::
 
-> **カードB**
+::::
+~~~
 
-> **カードC**
+- `h` / `horizontal`：等幅の横並び
+- `v` / `vertical`：縦並び
+- `card 色名 hover`：カードの色と影（`hover` は省略可能）
+- `[文字]{.coral-dark}`：ラベル。**親カードから色を継承せず、色を個別に指定**
+- `blank`：幅を占める透明な空白カード（背景・枠線・影なし）
+- `paper`：スライド幅95%の大きな白いキャンバス
 
-</div>
+`:::` は外側より**内側のコロン数を少なく**し、開始と終了の数を一致させます。任意の深さに入れ子にできます。詳しくは [04-container-notation.md](./04-container-notation.md) を参照してください。
 
-</div>
-```
+## 従来の外観と互換性
 
-`div` と Markdown カードの間には空行が必要です。中身が `>` だけのカードは背景・枠線・影のない透明なスペーサーとして等分幅を確保します。親ボックスに `hover` を付けても空白カードには影が付きません。実際の見本は `03-object-patterns.md` の09〜12を参照してください。
+テーマ名は `blackline`。標準の背景は白 `#FFFFFF`、`background gray` で薄灰色 `#FBFBFB` になります。ヘッダーと本文の仕切り線はありません。カード・ラベルは青緑／水色／灰色／赤／モノクロ／黄色の**6色×濃淡2種類**、`hover` は左右と下にのみ影を付けます。表紙・章扉は40:60分割、下部には進捗バーを表示します。
 
-### 16スライドの共通化
+旧式のMarkdown `>` カードや `div` レイアウト用CSSも残しているため、従来の原稿は引き続き使用できます。
 
-`02-slide-patterns.md` は16スライド構成です。残るスライド専用レイアウトクラスは `cover`、`chapter`、`message`、`steps-vertical` の4つのみです。`bullets` と `summary` は通常のMarkdownで表現します。その他のレイアウトには `medium`、`tall`、`center`、`equal`、`flow` を共通装飾として必要な場合だけ追加します。
+## PDF／HTML出力
 
-表紙と章扉は、左40%の `hero-media` にロゴ・図、右60%の `hero-copy` にMarkdownの `#`（タイトル）と `##`（サブタイトル）を記述します。章扉だけ左が濃紺背景です。実際のロゴ・図に差し替えるときは、左側のプレースホルダーをMarkdownの画像記法に置き換えます。連続した見出しは余白なしの一塊になり、本文を挟むと通常の余白に戻ります。`message` の強調文字は46pxです。
+プレビュー用Markdownを生成してから、Marp CLIで出力します。
 
-白いキャンバスは、通常スライドの本文に `<div class="box vertical paper">` を置けば使用できます（専用スライドはありません）。スライド幅95%、外側の上下余白とボックス内側の上下左右余白は32px。標準は影なしで、影が必要なら `class="box vertical paper hover"` とします。
-
-### スライド下端の進捗バー
-
-下端の濃紺バー（`#1B2B45`）は **現在のスライド番号 ÷ 総枚数** に応じて左から右へ伸びます（全幅の淡いグレーのラインが背景）。最終スライドで100%になります。`paginate: true` が必要ですが、ページ番号の文字はCSSで非表示にしています。数値の自動計算はChrome 133以降のCSS機能を利用するため、古いプレビュー・出力環境ではバーが伸びない場合があります。
-
-```yaml
----
-marp: true
-theme: blackline
-size: 16:9
-paginate: true
-footer: 'YOUR TEAM / 2026'
----
-```
-
-## CLIでの出力例
-
-Marp CLIを利用できる環境で、このフォルダから実行します。
-
-```bash
+~~~bash
+npm run build
 npx @marp-team/marp-cli 02-slide-patterns.md --theme theme.css --html -o slides.pdf
-```
+~~~
 
-HTML出力に変更する場合は `slides.pdf` を `slides.html` に変更します。
+テストは `npm test` で実行できます。
 
-## 今回の方針
+**互換性**：新記法の `:::` と `[文字]{.色名}` は標準Marpでは直接解析できません。本リポジトリの `npm run build` が通常のMarkdownとHTMLへ変換するため、**生成後の .md はMarp for VS Code公式プレビュー／Marp CLIでそのまま利用できます**。
 
-- グラフ専用レイアウトは除外。表・カード・アイコン的な記号・フローは対象。
-- 部品の組み合わせはMarkdownで行い、外観はCSSでまとめて管理。
-- フロントマターとMarkdownのカードを基本とし、色指定では小さな `span`、縦横の配置では `div` のみを併用する。
-- テキストはデモ用です。実際の業務資料では、用途に合うレイアウトを選び、内容を入れ替えます。
-
-参考： [Marp for VS Code公式](https://github.com/marp-team/marp-vscode) / [Marpitのディレクティブ](https://github.com/marp-team/marpit/blob/main/docs/directives.md)
-
+参考：[Marp for VS Code](https://github.com/marp-team/marp-vscode) / [Marp CLI](https://github.com/marp-team/marp-cli)
