@@ -26,17 +26,25 @@ footer: 'Marp Object Patterns / 2026'
 
 # 02｜カード
 
-Markdownの引用記法をカードとして扱います。淡色カードは枠線なしです。
+`::: card` のコンテナ記法でカードを作成します。淡色カードは枠線なしです。
 
-> <span class="hover"></span><span class="tone-token tone-turquoise-light"></span> **● カードの見出し（影あり）**
->
-> 説明文をここに記述します。1〜3行を目安にします。
->
-> `ラベルA` `ラベルB`
+<div class="card tone-turquoise-light hover">
 
-> <span class="tone-token tone-turquoise-dark"></span> **● 濃い色のカード**
->
-> 同じ記法でカードを追加できます。
+**● カードの見出し（影あり）**
+
+説明文をここに記述します。1〜3行を目安にします。
+
+`ラベルA` `ラベルB`
+
+</div>
+
+<div class="card tone-turquoise-dark">
+
+**● 濃い色のカード**
+
+同じ記法でカードを追加できます。
+
+</div>
 
 ---
 
@@ -92,11 +100,15 @@ Markdown標準の表を、黒罫線・薄灰色の見出しで表示します。
 
 # 06｜注記・コールアウト
 
-本文から独立して目立たせたい補足を引用記法で表現します。
+本文から独立して目立たせたい補足をカードで表現します。
 
-> **重要：ルールと内容を分離する**
->
-> 共通CSSを変えるだけで、同じMarkdownを別の見た目に変更できます。
+<div class="card">
+
+**重要：ルールと内容を分離する**
+
+共通CSSを変えるだけで、同じMarkdownを別の見た目に変更できます。
+
+</div>
 
 通常の説明文は、カードの外側に配置します。
 
@@ -130,9 +142,13 @@ npx @marp-team/marp-cli \
 - [Marp for VS Code](https://github.com/marp-team/marp-vscode)
 - [Marpitのディレクティブ](https://github.com/marp-team/marpit/blob/main/docs/directives.md)
 
-> **出典の記載**
->
-> 必要な場合は、URLや文献名をカード・フッターに短く記述します。
+<div class="card">
+
+**出典の記載**
+
+必要な場合は、URLや文献名をカード・フッターに短く記述します。
+
+</div>
 
 ---
 
@@ -144,17 +160,29 @@ npx @marp-team/marp-cli \
 
 <div class="box horizontal">
 
-> <span class="tone-token tone-turquoise-light"></span> **● カードA**
->
-> 内容を入力します。
+<div class="card tone-turquoise-light">
 
-> <span class="tone-token tone-aqua-light"></span> **● カードB**
->
-> 内容を入力します。
+**● カードA**
 
-> <span class="tone-token tone-coral-dark"></span> **● カードC**
->
-> 内容を入力します。
+内容を入力します。
+
+</div>
+
+<div class="card tone-aqua-light">
+
+**● カードB**
+
+内容を入力します。
+
+</div>
+
+<div class="card tone-coral-dark">
+
+**● カードC**
+
+内容を入力します。
+
+</div>
 
 </div>
 
@@ -168,17 +196,29 @@ npx @marp-team/marp-cli \
 
 <div class="box vertical">
 
-> <span class="tone-token tone-turquoise-light"></span> **● ステップ1**
->
-> 内容を入力します。
+<div class="card tone-turquoise-light">
 
-> <span class="tone-token tone-aqua-light"></span> **● ステップ2**
->
-> 内容を入力します。
+**● ステップ1**
 
-> <span class="tone-token tone-yellow-light"></span> **● ステップ3**
->
-> 内容を入力します。
+内容を入力します。
+
+</div>
+
+<div class="card tone-aqua-light">
+
+**● ステップ2**
+
+内容を入力します。
+
+</div>
+
+<div class="card tone-yellow-light">
+
+**● ステップ3**
+
+内容を入力します。
+
+</div>
 
 </div>
 
@@ -194,27 +234,47 @@ npx @marp-team/marp-cli \
 
 <div class="box vertical">
 
-> <span class="tone-token tone-turquoise-light"></span> **● 左上**
->
-> 親の横ボックスの左半分。
+<div class="card tone-turquoise-light">
 
-> <span class="tone-token tone-aqua-light"></span> **● 左下**
->
-> 縦方向に積み重ねる。
+**● 左上**
+
+親の横ボックスの左半分。
+
+</div>
+
+<div class="card tone-aqua-light">
+
+**● 左下**
+
+縦方向に積み重ねる。
+
+</div>
 
 </div>
 
 <div class="box vertical">
 
-> <span class="tone-token tone-coral-light"></span> **● 右上**
->
-> 親の横ボックスの右半分。
+<div class="card tone-coral-light">
+
+**● 右上**
+
+親の横ボックスの右半分。
+
+</div>
 
 <div class="box horizontal">
 
-> <span class="tone-token tone-yellow-light"></span> **● 右下A**
+<div class="card tone-yellow-light">
 
-> <span class="tone-token tone-gray-light"></span> **● 右下B**
+**● 右下A**
+
+</div>
+
+<div class="card tone-gray-light">
+
+**● 右下B**
+
+</div>
 
 </div>
 
@@ -228,19 +288,28 @@ npx @marp-team/marp-cli \
 
 # 12｜空白カード（スペーサー）
 
-中身のない `>` は背景・枠線なしの空白として、分割幅だけ確保します。
+`::: blank` は背景・枠線・影のない空白として、分割幅だけ確保します。
 
 <div class="box horizontal">
 
-> <span class="tone-token tone-turquoise-light"></span> **● 左カード**
->
-> 1列目
+<div class="card tone-turquoise-light">
 
->
+**● 左カード**
 
-> <span class="tone-token tone-coral-light"></span> **● 右カード**
->
-> 3列目
+1列目
 
 </div>
 
+<div class="blank">
+
+</div>
+
+<div class="card tone-coral-light">
+
+**● 右カード**
+
+3列目
+
+</div>
+
+</div>
