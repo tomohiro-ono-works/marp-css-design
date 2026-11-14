@@ -1,6 +1,6 @@
 # Marp表記ルール v2 — `:::` コンテナ方式（設計案）
 
-> 状態：**表記仕様の整理案**。既存の `theme.css`、`02-slide-patterns.md`、`03-object-patterns.md` はまだ変換していない。`:::` の描画には拡張パーサーまたは前処理が必要。
+> 状態：**実装済み**。`02-slide-patterns.source.md` と `03-object-patterns.source.md` が編集用、通常の `.md` は `npm run build` で生成するMarp公式プレビュー用です。`:::` は同梱のNode.js変換プログラムでHTMLへ変換します。
 
 ## 1. 基本方針
 
@@ -16,7 +16,7 @@
 
 | 対象 | 現行 | v2の原稿 | 変換先の考え方 |
 |---|---|---|---|
-| カード | 引用 `>` | `::: card` | `<blockquote class="card">` |
+| カード | 引用 `>` | `::: card` | `<div class="card">` |
 | カードの色 | `<span class="tone-token tone-turquoise-light"></span>` | `::: card turquoise-light` | 当該カード自身に色クラス |
 | カードの影 | `<span class="hover"></span>` | `::: card turquoise-light hover` | カード自身に`hover`クラス |
 | 横並び | `<div class="box horizontal">` | `::: horizontal` または `::: h` | `<div class="box horizontal">` |
@@ -29,7 +29,7 @@
 | 専用スライド | `<!-- _class: cover -->`など | **変更なし** | Marpディレクティブ |
 | 通常のラベル | `` `ラベル` `` | **変更なし** | CSSによるピル型表示 |
 
-`card`、`horizontal` / `h`、`vertical` / `v`、`paper`、`blank`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名・省略形**であり、Marp標準の構文ではない。インラインラベルは `markdown-it-bracketed-spans` と `markdown-it-attrs` による拡張記法。ラベルは色名から変換時に `tone-chip tone-<色名>` のHTMLクラスを生成する。
+`card`、`horizontal` / `h`、`vertical` / `v`、`paper`、`blank`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名・省略形**であり、Marp標準の構文ではない。インラインラベルの `[文字]{.色名}` も独自記法で、同梱の変換プログラムがHTMLの `span` に変換する。ラベルは色名から変換時に `tone-chip tone-<色名>` のHTMLクラスを生成する。
 
 ## 3. 基本コンテナ
 
@@ -117,7 +117,7 @@
 ::::::
 ~~~
 
-**入れ子のルール**：外側ほどコロンの個数を多くする。上記は外から6個 → 5個 → 4個 → 3個。開始と終了は同じ数で閉じる。`markdown-it-container` は終了フェンスに開始フェンス以上の長さを要求するため、内側を短くする。
+**入れ子のルール**：外側ほどコロンの個数を多くする。上記は外から6個 → 5個 → 4個 → 3個。開始と終了は同じ数で閉じる。**同梱コンパイラーは開始・終了の個数一致を検証**する。
 
 ### 3.4 空白カード・大きな白いキャンバス
 
@@ -170,7 +170,7 @@
 - **色はオブジェクト単位で独立指定**する。親のカードが `turquoise-light` であっても、ラベル `[重要]{.coral-dark}` は赤色となる。`.tone-dark` / `.tone-light` のような親色継承の省略表記は採用しない。
 - 変換時には `[重要]{.coral-dark}` を `<span class="tone-chip tone-coral-dark">重要</span>` に写像する。表示スタイルは既存の `tone-chip` と同等とする。
 - 既存のインラインコード `` `ラベル` `` は、無指定の通常ラベルとしてそのまま利用できる。
-- `[文字]{.class}` は標準Markdownではなく、`markdown-it-bracketed-spans` と `markdown-it-attrs` の追加処理を必要とする。
+- `[文字]{.色名}` は標準Markdownではない。同梱の `scripts/build-marp.mjs` がHTMLへ変換するため、外部のMarkdown-itプラグインは不要。
 
 ### 3.6 表紙・章扉
 
@@ -264,19 +264,22 @@
 
 実際の濃色カードの背景は白文字が読めるよう、既存 `theme.css` で一部をより濃い色に補正している。
 
-## 6. 実装要件・互換性
+## 6. 実装済みの構成・互換性
 
-1. **標準のMarpやCSSだけでは `:::` と `[文字]{.class}` を解釈できない。** ブロックには `markdown-it-container`、インラインには `markdown-it-bracketed-spans` と `markdown-it-attrs` 等が必要。
-2. **Marp CLI** は `marp.config.mjs` のカスタムエンジンからMarkdown-itプラグインを登録できる。`card`、`horizontal` / `h`、`vertical` / `v` などをそれぞれ各クラス・HTML要素に写像し、インラインラベルは `.色名-dark/light` を `tone-chip tone-色名-dark/light` に変換する。親カードからの色継承は行わない。
-3. **Marp for VS Code公式プレビュー** はユーザー独自のMarkdown-itプラグインを読み込めない。従来の公式プレビューを維持するには、`:::` や `[文字]{.class}` を従来のMarp互換Markdown・HTMLへ変換してからプレビューする工程が必要。
-4. CSSの `:has(.tone-token)` のような子孫検索は、入れ子カードで親に子の色が伝播する問題がある。新形式は**自身のカードクラスのみで配色**する。
-5. この文書は**表記ルールの提案**であり、`::: card` の描画・プレビュー・CLIエクスポートが現行リポジトリで既に動くことを意味しない。
+1. **編集対象**：`02-slide-patterns.source.md`（16スライド）および `03-object-patterns.source.md`（12部品見本）。
+2. **変換プログラム**：`scripts/build-marp.mjs`。ブロックコンテナとインラインラベルをMarp互換のMarkdown＋HTMLに変換する。Node.js 18以降で動作し、追加パッケージは不要。
+3. **手動ビルド**：`npm run build`。生成先は `02-slide-patterns.md` と `03-object-patterns.md`。既存の成果物を上書きするため、編集は必ず `*.source.md` に対して行う。
+4. **自動更新**：`npm run watch`。編集用ファイルを保存するたびにプレビュー用Markdownが再生成される。VSCodeの「タスクの実行」から `Marp: Watch preview` を選択する方法もある。
+5. **Marp公式プレビュー**：生成された `02-slide-patterns.md` / `03-object-patterns.md` をVSCodeの公式Marpプレビューで開く。標準Marpでは編集元の `:::` を直接描画できない点に注意。
+6. **PDF出力**：`npm run build` の後、`npx @marp-team/marp-cli 02-slide-patterns.md --theme theme.css --html -o slides.pdf` を実行。
+7. **色の独立性**：変換先カードには自身の `tone-色名` クラスを割り当てる。ラベルも `tone-chip tone-色名` クラスを直接持つ。親カードの色からラベルの色を推測・継承しない。
+8. **互換性**：`theme.css` には従来の引用 `>` とHTML `div` 用のCSSも残し、旧形式の原稿を読み込めるようにする。
+9. **検証**：`npm test` で、`h/v` と正式表記の同値、入れ子、ラベル色の独立性、空白、構文エラー、コードフェンス保護を確認できる。
 
-## 7. 参照元
+\n## 7. 参照元
 
 - [marp-css-design / 01-common-rules.md](https://github.com/tomohiro-ono-works/marp-css-design/blob/main/01-common-rules.md)
 - [marp-css-design / 02-slide-patterns.md](https://github.com/tomohiro-ono-works/marp-css-design/blob/main/02-slide-patterns.md)
 - [marp-css-design / 03-object-patterns.md](https://github.com/tomohiro-ono-works/marp-css-design/blob/main/03-object-patterns.md)
 - [Marp CLI — Configuration](https://github.com/marp-team/marp-cli#configuration-file)
-- [markdown-it-container](https://github.com/markdown-it/markdown-it-container)
-- [Marp for VS Codeのプラグイン制限（公式ディスカッション）](https://github.com/orgs/marp-team/discussions/432)
+- [Marp for VS Code](https://github.com/marp-team/marp-vscode)
