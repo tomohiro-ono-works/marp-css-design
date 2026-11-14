@@ -776,3 +776,115 @@ section blockquote:has(.tone-token.tone-yellow-dark) {
   --tone-fill: var(--card-yellow-dark);
   --tone-ink: #ffffff;
 }
+
+/* Container notation v2 — generated from *.source.md.
+ * The existing Markdown/blockquote styles above remain backward compatible.
+ * A card owns its colors; nested cards and inline chips override them independently.
+ */
+section .card {
+  --card-bg: #ffffff;
+  --card-fg: var(--ink);
+  display: block;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 12px 0;
+  padding: 18px 21px;
+  border: 1.8px solid var(--line);
+  border-radius: 9px;
+  background: var(--card-bg);
+  color: var(--card-fg);
+  font-size: 20px;
+  line-height: 1.37;
+}
+
+section .card p,
+section .card li,
+section .card strong {
+  color: var(--card-fg);
+}
+
+section .card p { margin: 0 0 9px; }
+section .card p:last-child { margin-bottom: 0; }
+section .card > p:first-child strong { font-size: 23px; }
+
+/* The color of a child card is never derived from the parent's class. */
+section .card.tone-turquoise-light { --card-bg: var(--tone-turquoise-light); --card-fg: var(--card-turquoise-dark); border: 0; }
+section .card.tone-aqua-light { --card-bg: var(--tone-aqua-light); --card-fg: var(--text-aqua-dark); border: 0; }
+section .card.tone-gray-light { --card-bg: var(--tone-gray-light); --card-fg: var(--card-gray-dark); border: 0; }
+section .card.tone-coral-light { --card-bg: var(--tone-coral-light); --card-fg: var(--card-coral-dark); border: 0; }
+section .card.tone-mono-light { --card-bg: var(--tone-mono-light); --card-fg: var(--card-mono-dark); border: 0; }
+section .card.tone-yellow-light { --card-bg: var(--tone-yellow-light); --card-fg: var(--card-yellow-dark); border: 0; }
+
+section .card.tone-turquoise-dark { --card-bg: var(--card-turquoise-dark); --card-fg: #ffffff; }
+section .card.tone-aqua-dark { --card-bg: var(--card-aqua-dark); --card-fg: #ffffff; }
+section .card.tone-gray-dark { --card-bg: var(--card-gray-dark); --card-fg: #ffffff; }
+section .card.tone-coral-dark { --card-bg: var(--card-coral-dark); --card-fg: #ffffff; }
+section .card.tone-mono-dark { --card-bg: var(--card-mono-dark); --card-fg: #ffffff; }
+section .card.tone-yellow-dark { --card-bg: var(--card-yellow-dark); --card-fg: #ffffff; }
+
+/* Grid/flex children can be cards, nested boxes, or invisible placeholders. */
+section .box > .card,
+section .box > .blank {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+}
+section .box.horizontal > .card,
+section .box.horizontal > .blank { flex: 1 1 0; }
+section .box.vertical > .card,
+section .box.vertical > .blank {
+  flex: 0 0 auto;
+  width: 100%;
+}
+section .box.vertical.equal > .card,
+section .box.vertical.equal > .blank { flex: 1 1 0; }
+section .box.horizontal.center > .card {
+  flex: 0 1 56%;
+  text-align: center;
+  background: var(--soft);
+}
+section .blank {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Shadows only on selected content cards, not on blank placeholders. */
+section .card.hover,
+section .box.hover > .card {
+  box-shadow: 0 7px 10px -5px rgba(27, 43, 69, 0.20);
+}
+section .box.hover > .blank { box-shadow: none; }
+
+/* Preserve card-dependent special slide patterns. */
+section.message > .card {
+  padding: 60px 42px;
+  text-align: center;
+  font-size: 46px;
+  font-weight: 800;
+}
+section.message > .card > p:first-child strong { font-size: 46px; }
+section.object-callout > .card {
+  background: var(--soft);
+  border-left: 10px solid var(--ink);
+}
+section.object-guide > .card { max-width: 800px; }
+section.dense .card { font-size: 18px; }
+
+/* Arrow connectors work for cards rendered as divs. */
+section .box.flow > .card { position: relative; }
+section .box.flow > .card:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 43%;
+  right: -27px;
+  z-index: 2;
+  padding: 0 1px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 25px;
+}
