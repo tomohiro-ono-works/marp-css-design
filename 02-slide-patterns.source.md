@@ -89,7 +89,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card coral-light
 
- **● 表現がばらつく**
+**● 表現がばらつく**
 
 担当者ごとに色・余白・見出しの使い方が違う。
 
@@ -99,7 +99,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card yellow-light
 
- **● 変更に弱い**
+**● 変更に弱い**
 
 レイアウトを直すたびに、各ページを修正する。
 
@@ -113,7 +113,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card turquoise-light
 
- **● 再利用しにくい**
+**● 再利用しにくい**
 
 似た説明でも毎回ゼロから作成してしまう。
 
@@ -123,7 +123,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card gray-light
 
- **● 情報が探しにくい**
+**● 情報が探しにくい**
 
 情報の位置が一定でなく、読み取りに時間がかかる。
 
@@ -161,7 +161,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card coral-light
 
- **変更前**
+**変更前**
 
 - ページごとに見た目を調整
 - 同じ表現を作り直す
@@ -173,7 +173,7 @@ footer: 'Marp Pattern Kit / 2026'
 
 ::: card turquoise-light
 
- **変更後**
+**変更後**
 
 - 構成とデザインを分離
 - オブジェクトを再利用
