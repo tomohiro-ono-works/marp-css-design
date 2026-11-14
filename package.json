@@ -1,0 +1,11 @@
+{
+  "name": "marp-markdown-pattern-kit",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-marp.mjs",
+    "watch": "node scripts/build-marp.mjs --watch",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
