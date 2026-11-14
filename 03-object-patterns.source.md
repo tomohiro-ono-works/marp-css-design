@@ -26,11 +26,11 @@ footer: 'Marp Object Patterns / 2026'
 
 # 02｜カード
 
-Markdownの引用記法をカードとして扱います。淡色カードは枠線なしです。
+`::: card` のコンテナ記法でカードを作成します。淡色カードは枠線なしです。
 
 ::: card turquoise-light hover
 
- **● カードの見出し（影あり）**
+**● カードの見出し（影あり）**
 
 説明文をここに記述します。1〜3行を目安にします。
 
@@ -40,7 +40,7 @@ Markdownの引用記法をカードとして扱います。淡色カードは枠
 
 ::: card turquoise-dark
 
- **● 濃い色のカード**
+**● 濃い色のカード**
 
 同じ記法でカードを追加できます。
 
@@ -100,7 +100,7 @@ Markdown標準の表を、黒罫線・薄灰色の見出しで表示します。
 
 # 06｜注記・コールアウト
 
-本文から独立して目立たせたい補足を引用記法で表現します。
+本文から独立して目立たせたい補足をカードで表現します。
 
 ::: card
 
@@ -162,7 +162,7 @@ npx @marp-team/marp-cli \
 
 ::: card turquoise-light
 
- **● カードA**
+**● カードA**
 
 内容を入力します。
 
@@ -170,7 +170,7 @@ npx @marp-team/marp-cli \
 
 ::: card aqua-light
 
- **● カードB**
+**● カードB**
 
 内容を入力します。
 
@@ -178,7 +178,7 @@ npx @marp-team/marp-cli \
 
 ::: card coral-dark
 
- **● カードC**
+**● カードC**
 
 内容を入力します。
 
@@ -198,7 +198,7 @@ npx @marp-team/marp-cli \
 
 ::: card turquoise-light
 
- **● ステップ1**
+**● ステップ1**
 
 内容を入力します。
 
@@ -206,7 +206,7 @@ npx @marp-team/marp-cli \
 
 ::: card aqua-light
 
- **● ステップ2**
+**● ステップ2**
 
 内容を入力します。
 
@@ -214,7 +214,7 @@ npx @marp-team/marp-cli \
 
 ::: card yellow-light
 
- **● ステップ3**
+**● ステップ3**
 
 内容を入力します。
 
@@ -236,7 +236,7 @@ npx @marp-team/marp-cli \
 
 ::: card turquoise-light
 
- **● 左上**
+**● 左上**
 
 親の横ボックスの左半分。
 
@@ -244,7 +244,7 @@ npx @marp-team/marp-cli \
 
 ::: card aqua-light
 
- **● 左下**
+**● 左下**
 
 縦方向に積み重ねる。
 
@@ -256,7 +256,7 @@ npx @marp-team/marp-cli \
 
 ::: card coral-light
 
- **● 右上**
+**● 右上**
 
 親の横ボックスの右半分。
 
@@ -266,13 +266,13 @@ npx @marp-team/marp-cli \
 
 ::: card yellow-light
 
- **● 右下A**
+**● 右下A**
 
 :::
 
 ::: card gray-light
 
- **● 右下B**
+**● 右下B**
 
 :::
 
@@ -288,13 +288,13 @@ npx @marp-team/marp-cli \
 
 # 12｜空白カード（スペーサー）
 
-中身のない `>` は背景・枠線なしの空白として、分割幅だけ確保します。
+`::: blank` は背景・枠線・影のない空白として、分割幅だけ確保します。
 
 :::: h
 
 ::: card turquoise-light
 
- **● 左カード**
+**● 左カード**
 
 1列目
 
@@ -306,7 +306,7 @@ npx @marp-team/marp-cli \
 
 ::: card coral-light
 
- **● 右カード**
+**● 右カード**
 
 3列目
 
