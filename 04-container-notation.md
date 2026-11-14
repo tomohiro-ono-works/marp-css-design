@@ -6,7 +6,7 @@
 
 - **文章の意味**はMarkdownで表す：`#`、`##`、`###`、`**太字**`、段落、リスト、表、コード、リンク、画像。
 - **複数行・構造を持つ部品**は `:::` コンテナで表す：カード、色、影、縦横分割、入れ子、白いキャンバス、空白、表紙・章扉のパネル。
-- **単語や短文に適用する装飾**はインラインの囲み形式で表す。色付きラベルは `[注意]{.tone-chip .tone-yellow-dark}` とする。
+- **単語や短文に適用する装飾**はインラインの囲み形式で表す。色付きラベルは `[注意]{.yellow-dark}` のように、色名だけを指定する。ラベルは親カードから色を継承せず、**常にラベル自身に指定した色**を使用する。
 - **既存の長い表記を維持し、省略表記も追加する**：`horizontal` と `h`、`vertical` と `v` はそれぞれ同じ意味。
 - **スライド単位の設定**はMarp標準を維持する：YAMLフロントマター、`---`、`<!-- _class: ... -->`。
 - `div` と空の `span` の直接記述は新規原稿では原則廃止する。
@@ -23,13 +23,13 @@
 | 縦並び | `<div class="box vertical">` | `::: vertical` または `::: v` | `<div class="box vertical">` |
 | コンテンツキャンバス | `<div class="box vertical paper">` | `::: paper` | `<div class="box vertical paper">` |
 | 空白カード | 中身のない `>` | `::: blank` | 空のカード／占位要素 |
-| 色付きラベル | `<span class="tone-chip tone-yellow-dark">注意</span>` | `[注意]{.tone-chip .tone-yellow-dark}` | `<span class="tone-chip tone-yellow-dark">注意</span>` |
+| 色付きラベル | `<span class="tone-chip tone-yellow-dark">注意</span>` | `[注意]{.yellow-dark}` | `<span class="tone-chip tone-yellow-dark">注意</span>` |
 | 表紙・章扉の構成 | `.box.horizontal.hero`、`.hero-media`、`.hero-copy` | `::: hero`、`::: hero-media`、`::: hero-copy` | 従来の専用レイアウト |
 | スライド背景 | `<!-- _class: background gray -->` | **変更なし** | Marpディレクティブ |
 | 専用スライド | `<!-- _class: cover -->`など | **変更なし** | Marpディレクティブ |
 | 通常のラベル | `` `ラベル` `` | **変更なし** | CSSによるピル型表示 |
 
-`card`、`horizontal` / `h`、`vertical` / `v`、`paper`、`blank`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名・省略形**であり、Marp標準の構文ではない。インラインラベルは `markdown-it-bracketed-spans` と `markdown-it-attrs` による拡張記法。
+`card`、`horizontal` / `h`、`vertical` / `v`、`paper`、`blank`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名・省略形**であり、Marp標準の構文ではない。インラインラベルは `markdown-it-bracketed-spans` と `markdown-it-attrs` による拡張記法。ラベルは色名から変換時に `tone-chip tone-<色名>` のHTMLクラスを生成する。
 
 ## 3. 基本コンテナ
 
@@ -152,13 +152,23 @@
 ### 3.5 色付きラベル（インライン形式）
 
 ~~~md
-[注意]{.tone-chip .tone-yellow-dark}
+[注意]{.yellow-dark}
 
-ステータスは [完了]{.tone-chip .tone-turquoise-light}、優先度は [高]{.tone-chip .tone-coral-dark} です。
+ステータスは [完了]{.turquoise-light}、優先度は [高]{.coral-dark} です。
+
+::: card turquoise-light
+
+**● カードA**
+
+[重要]{.coral-dark} [確認中]{.yellow-light}
+
+:::
 ~~~
 
-- 単語・短文に適用する装飾は `[文字]{.tone-chip .tone-色名-dark/light}` という**囲み記法**に統一する。
+- 単語・短文に適用する装飾は `[文字]{.色名-dark/light}` という**囲み記法**に統一する。`tone-` および `tone-chip` の記述は不要。
 - `::: chip` は**採用しない**。インラインで複数のラベルを同一行に書いたり、文章の途中に配置したりできる。
+- **色はオブジェクト単位で独立指定**する。親のカードが `turquoise-light` であっても、ラベル `[重要]{.coral-dark}` は赤色となる。`.tone-dark` / `.tone-light` のような親色継承の省略表記は採用しない。
+- 変換時には `[重要]{.coral-dark}` を `<span class="tone-chip tone-coral-dark">重要</span>` に写像する。表示スタイルは既存の `tone-chip` と同等とする。
 - 既存のインラインコード `` `ラベル` `` は、無指定の通常ラベルとしてそのまま利用できる。
 - `[文字]{.class}` は標準Markdownではなく、`markdown-it-bracketed-spans` と `markdown-it-attrs` の追加処理を必要とする。
 
@@ -235,6 +245,7 @@
 | ヘッダー／本文 | 同じ背景色。境界線なし |
 | 影 | `hover` 指定時のみ左右・下に表示。上側には出さない。空白カードは影なし |
 | ボックス | 横は等幅、縦は全幅。任意に入れ子可能 |
+| 色付きラベル | `[文字]{.色名-dark/light}`。カードと独立して色を選択。`tone-` 接頭辞不要 |
 | 表紙／章扉 | 左40%／右60%。章扉の左は濃紺 `#1B2B45` |
 | 進捗バー | 下端の濃紺 `#1B2B45`。スライド番号／総枚数に応じた幅 |
 | 白キャンバス | スライド幅95%、パディング32px、標準は影なし |
@@ -256,7 +267,7 @@
 ## 6. 実装要件・互換性
 
 1. **標準のMarpやCSSだけでは `:::` と `[文字]{.class}` を解釈できない。** ブロックには `markdown-it-container`、インラインには `markdown-it-bracketed-spans` と `markdown-it-attrs` 等が必要。
-2. **Marp CLI** は `marp.config.mjs` のカスタムエンジンからMarkdown-itプラグインを登録できる。`card`、`horizontal` / `h`、`vertical` / `v` などをそれぞれ各クラス・HTML要素に写像し、インラインラベルの属性も処理する。
+2. **Marp CLI** は `marp.config.mjs` のカスタムエンジンからMarkdown-itプラグインを登録できる。`card`、`horizontal` / `h`、`vertical` / `v` などをそれぞれ各クラス・HTML要素に写像し、インラインラベルは `.色名-dark/light` を `tone-chip tone-色名-dark/light` に変換する。親カードからの色継承は行わない。
 3. **Marp for VS Code公式プレビュー** はユーザー独自のMarkdown-itプラグインを読み込めない。従来の公式プレビューを維持するには、`:::` や `[文字]{.class}` を従来のMarp互換Markdown・HTMLへ変換してからプレビューする工程が必要。
 4. CSSの `:has(.tone-token)` のような子孫検索は、入れ子カードで親に子の色が伝播する問題がある。新形式は**自身のカードクラスのみで配色**する。
 5. この文書は**表記ルールの提案**であり、`::: card` の描画・プレビュー・CLIエクスポートが現行リポジトリで既に動くことを意味しない。
