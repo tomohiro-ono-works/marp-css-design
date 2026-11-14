@@ -13,7 +13,7 @@
 | `theme.css` | 共通テーマ＋各スライド構成のCSS |
 | `.vscode/settings.json` | Marp for VS Codeでテーマを認識させる設定 |
 
-**新しい表記ルール案**：カード・色・影・横／縦配置・入れ子・白いキャンバスなどのHTMLベースの記法を `:::` コンテナに集約する仕様を [`04-container-notation.md`](./04-container-notation.md) にまとめています。**現時点では設計案であり**、下記の既存スライドや公式VSCodeプレビューは従来のHTML方式です。 `:::` で描画するにはMarkdown-it拡張または変換処理が必要です。
+**新しい表記ルール案**：カード・横／縦配置・入れ子・白いキャンバスなどの複数行・構造的な記法を `:::` コンテナに集約し、横並びは `horizontal` / `h`、縦並びは `vertical` / `v` の両方に対応します。単語・短文の色付きラベルは `[注意]{.tone-chip .tone-yellow-dark}` のようなインラインの囲み記法を使用します。仕様は [`04-container-notation.md`](./04-container-notation.md) にまとめています。**現時点では設計案であり**、下記の既存スライドや公式VSCodeプレビューは従来のHTML方式です。 `:::` で描画するにはMarkdown-it拡張または変換処理が必要です。
 
 ## VSCodeでの使用方法
 
