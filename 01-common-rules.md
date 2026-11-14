@@ -2,6 +2,8 @@
 
 このファイルは設計ルールの文書です（スライド本体ではありません）。
 
+> **新しい表記（実装済み）**：カードと横／縦配置は `::: card`、`::: h` / `::: horizontal`、`::: v` / `::: vertical` を使用します。色付きラベルは `[重要]{.coral-dark}` と指定し、親カードとは独立した色になります。編集対象は `02-slide-patterns.source.md` / `03-object-patterns.source.md`、`npm run build` で公式Marpプレビュー用 `.md` を生成します。詳細は [04-container-notation.md](./04-container-notation.md) を参照してください。本書に記載した旧式の `>` / `div` / `span` の記述例は互換性のため残しています。
+
 ## 1. デザインの基本方針
 
 - **目的**：技術解説や分析報告を、Markdown主体で読みやすく構成する。
