@@ -5,7 +5,9 @@
 ## 1. 基本方針
 
 - **文章の意味**はMarkdownで表す：`#`、`##`、`###`、`**太字**`、段落、リスト、表、コード、リンク、画像。
-- **部品と配置**は `:::` コンテナで表す：カード、色、影、縦横分割、入れ子、白いキャンバス、色付きラベル、空白、表紙・章扉のパネル。
+- **複数行・構造を持つ部品**は `:::` コンテナで表す：カード、色、影、縦横分割、入れ子、白いキャンバス、空白、表紙・章扉のパネル。
+- **単語や短文に適用する装飾**はインラインの囲み形式で表す。色付きラベルは `[注意]{.tone-chip .tone-yellow-dark}` とする。
+- **既存の長い表記を維持し、省略表記も追加する**：`horizontal` と `h`、`vertical` と `v` はそれぞれ同じ意味。
 - **スライド単位の設定**はMarp標準を維持する：YAMLフロントマター、`---`、`<!-- _class: ... -->`。
 - `div` と空の `span` の直接記述は新規原稿では原則廃止する。
 - コンテナ名と修飾子は半角英数字・ハイフンで統一する。修飾子の順番は、**色 → 影／サイズ／レイアウト**を基本とする。
@@ -17,17 +19,17 @@
 | カード | 引用 `>` | `::: card` | `<blockquote class="card">` |
 | カードの色 | `<span class="tone-token tone-turquoise-light"></span>` | `::: card turquoise-light` | 当該カード自身に色クラス |
 | カードの影 | `<span class="hover"></span>` | `::: card turquoise-light hover` | カード自身に`hover`クラス |
-| 横並び | `<div class="box horizontal">` | `::: horizontal` | `<div class="box horizontal">` |
-| 縦並び | `<div class="box vertical">` | `::: vertical` | `<div class="box vertical">` |
+| 横並び | `<div class="box horizontal">` | `::: horizontal` または `::: h` | `<div class="box horizontal">` |
+| 縦並び | `<div class="box vertical">` | `::: vertical` または `::: v` | `<div class="box vertical">` |
 | コンテンツキャンバス | `<div class="box vertical paper">` | `::: paper` | `<div class="box vertical paper">` |
 | 空白カード | 中身のない `>` | `::: blank` | 空のカード／占位要素 |
-| 色付きラベル | `<span class="tone-chip tone-yellow-dark">注意</span>` | `::: chip yellow-dark` | ラベル用要素 |
+| 色付きラベル | `<span class="tone-chip tone-yellow-dark">注意</span>` | `[注意]{.tone-chip .tone-yellow-dark}` | `<span class="tone-chip tone-yellow-dark">注意</span>` |
 | 表紙・章扉の構成 | `.box.horizontal.hero`、`.hero-media`、`.hero-copy` | `::: hero`、`::: hero-media`、`::: hero-copy` | 従来の専用レイアウト |
 | スライド背景 | `<!-- _class: background gray -->` | **変更なし** | Marpディレクティブ |
 | 専用スライド | `<!-- _class: cover -->`など | **変更なし** | Marpディレクティブ |
 | 通常のラベル | `` `ラベル` `` | **変更なし** | CSSによるピル型表示 |
 
-`card`、`horizontal`、`vertical`、`paper`、`blank`、`chip`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名**であり、Marp標準の構文ではない。
+`card`、`horizontal` / `h`、`vertical` / `v`、`paper`、`blank`、`hero`、`hero-media`、`hero-copy` は**プロジェクト独自のコンテナ名・省略形**であり、Marp標準の構文ではない。インラインラベルは `markdown-it-bracketed-spans` と `markdown-it-attrs` による拡張記法。
 
 ## 3. 基本コンテナ
 
@@ -73,7 +75,7 @@
 ::::
 ~~~
 
-先頭を `:::: vertical` に変更すれば縦積みになる。`horizontal` は子要素を等幅分割し、`vertical` は全幅で縦積みする。
+先頭を `:::: vertical` または `:::: v` に変更すれば縦積みになる。横並びは `horizontal` または `h`、縦並びは `vertical` または `v` を使用できる。**長い表記も廃止しない**。横は子要素を等幅分割し、縦は全幅で縦積みする。
 
 修飾子は既存の `medium`（中程度の高さ）、`tall`（大きな高さ）、`center`（中央揃え）、`equal`（縦方向の均等割り）、`flow`（矢印付き横フロー）、`hover`（影の一括指定）を引き継ぐ。`flow` は基本的に横並びに使用する。
 
@@ -147,17 +149,18 @@
 - `blank` は均等分割の幅だけを確保し、背景・枠線・影を表示しない。
 - `paper` はスライド幅95%、左右余白各2.5%、内側余白32px。標準は影なし。`hover` で影を付ける。
 
-### 3.5 色付きラベル
+### 3.5 色付きラベル（インライン形式）
 
 ~~~md
-::: chip yellow-dark
-注意
-:::
+[注意]{.tone-chip .tone-yellow-dark}
+
+ステータスは [完了]{.tone-chip .tone-turquoise-light}、優先度は [高]{.tone-chip .tone-coral-dark} です。
 ~~~
 
-色付きラベルはプロジェクト独自の `chip` コンテナを利用する。通常のラベルは従来どおりインラインコード `` `ラベル` `` を推奨する。
-
-> 補足：`:::` はブロック記法なので、色付きラベルを**文章の途中にインラインで挿入**する構文ではない。表示上はCSSで小さいラベルにする。複数ラベルの横並びは実装時に検証する。
+- 単語・短文に適用する装飾は `[文字]{.tone-chip .tone-色名-dark/light}` という**囲み記法**に統一する。
+- `::: chip` は**採用しない**。インラインで複数のラベルを同一行に書いたり、文章の途中に配置したりできる。
+- 既存のインラインコード `` `ラベル` `` は、無指定の通常ラベルとしてそのまま利用できる。
+- `[文字]{.class}` は標準Markdownではなく、`markdown-it-bracketed-spans` と `markdown-it-attrs` の追加処理を必要とする。
 
 ### 3.6 表紙・章扉
 
@@ -184,6 +187,36 @@
 ~~~
 
 `cover` と `chapter` の左右比率は左40%、右60%。章扉の左パネルは濃紺。既存のMarpディレクティブを維持する。
+
+### 3.7 省略表記の使用例
+
+~~~md
+:::: h medium
+
+::: card aqua-light
+**左カード**
+:::
+
+::: card coral-light
+**右カード**
+:::
+
+::::
+
+:::: v
+
+::: card turquoise-light
+**上カード**
+:::
+
+::: card yellow-light
+**下カード**
+:::
+
+::::
+~~~
+
+`h` と `horizontal`、`v` と `vertical` は**同一のレイアウトを生成**する。文書内でどちらを使用してもよい。
 
 ## 4. 維持するMarkdown・Marp記法
 
@@ -222,9 +255,9 @@
 
 ## 6. 実装要件・互換性
 
-1. **標準のMarpやCSSだけでは `:::` を解釈できない。** `markdown-it-container` 等でコンテナを定義する必要がある。
-2. **Marp CLI** は `marp.config.mjs` のカスタムエンジンからMarkdown-itプラグインを登録できる。`card`、`horizontal`、`vertical` などを各クラス・HTML要素に写像する。
-3. **Marp for VS Code公式プレビュー** はユーザー独自のMarkdown-itプラグインを読み込めない。従来の公式プレビューを維持するには、`:::` 原稿を従来のMarp互換Markdownへ変換してからプレビューする工程が必要。
+1. **標準のMarpやCSSだけでは `:::` と `[文字]{.class}` を解釈できない。** ブロックには `markdown-it-container`、インラインには `markdown-it-bracketed-spans` と `markdown-it-attrs` 等が必要。
+2. **Marp CLI** は `marp.config.mjs` のカスタムエンジンからMarkdown-itプラグインを登録できる。`card`、`horizontal` / `h`、`vertical` / `v` などをそれぞれ各クラス・HTML要素に写像し、インラインラベルの属性も処理する。
+3. **Marp for VS Code公式プレビュー** はユーザー独自のMarkdown-itプラグインを読み込めない。従来の公式プレビューを維持するには、`:::` や `[文字]{.class}` を従来のMarp互換Markdown・HTMLへ変換してからプレビューする工程が必要。
 4. CSSの `:has(.tone-token)` のような子孫検索は、入れ子カードで親に子の色が伝播する問題がある。新形式は**自身のカードクラスのみで配色**する。
 5. この文書は**表記ルールの提案**であり、`::: card` の描画・プレビュー・CLIエクスポートが現行リポジトリで既に動くことを意味しない。
 
