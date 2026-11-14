@@ -7,10 +7,13 @@
 | ファイル | 目的 |
 |---|---|
 | `01-common-rules.md` | 共通ルール、対応表、運用上の注意 |
+| `04-container-notation.md` | 次期 `:::` コンテナ表記仕様（設計案。描画処理は未実装） |
 | `02-slide-patterns.md` | 用途別の16種類のスライド見本（Marp形式） |
 | `03-object-patterns.md` | 再利用するオブジェクトの見本（水平・垂直・入れ子・空白カードを含む12種、Marp形式） |
 | `theme.css` | 共通テーマ＋各スライド構成のCSS |
 | `.vscode/settings.json` | Marp for VS Codeでテーマを認識させる設定 |
+
+**新しい表記ルール案**：カード・色・影・横／縦配置・入れ子・白いキャンバスなどのHTMLベースの記法を `:::` コンテナに集約する仕様を [`04-container-notation.md`](./04-container-notation.md) にまとめています。**現時点では設計案であり**、下記の既存スライドや公式VSCodeプレビューは従来のHTML方式です。 `:::` で描画するにはMarkdown-it拡張または変換処理が必要です。
 
 ## VSCodeでの使用方法
 
