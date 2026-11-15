@@ -74,7 +74,12 @@ function parseContainer(fence, words, lineNo) {
     case 'hero': classes = ['box', 'horizontal', 'hero']; break;
     case 'hero-media': classes = ['box', 'vertical', 'hero-media']; break;
     case 'hero-copy': classes = ['box', 'vertical', 'hero-copy']; break;
+    case 'header': classes = ['slide-header']; break;
+    case 'body': classes = ['slide-body']; break;
     default: throw Error(`Line ${lineNo}: unknown container '${type}'.`);
+  }
+  if ((type === 'header' || type === 'body') && mods.length) {
+    throw Error(`Line ${lineNo}: slide regions do not accept modifiers.`);
   }
   const validLayout = new Set(['hover', 'medium', 'tall', 'center', 'equal', 'flow']);
   let colorCount = 0;
@@ -98,6 +103,7 @@ export function compile(source, filename = '<input>') {
   const lines = source.replaceAll('\r\n', '\n').split('\n');
   const output = [];
   const stack = [];
+  let slideRegions = { header: false, body: false };
   let codeFence = null;
   for (let index = 0; index < lines.length; index++) {
     const line = lines[index];
@@ -112,10 +118,23 @@ export function compile(source, filename = '<input>') {
       output.push(line);
       continue;
     }
+    if (line.trim() === '---') {
+      if (stack.length) throw Error(`${filename}:${index + 1}: close all containers before a slide separator.`);
+      slideRegions = { header: false, body: false };
+      output.push(line);
+      continue;
+    }
     const match = line.match(/^ {0,3}(:{3,})(?:[ \t]+(.*?))?[ \t]*$/);
     if (match) {
       const [, fence, words] = match;
       if (words) {
+        const type = words.trim().split(/\s+/)[0];
+        if (type === 'header' || type === 'body') {
+          if (stack.length) throw Error(`${filename}:${index + 1}: slide '${type}' must be top-level.`);
+          if (slideRegions[type]) throw Error(`${filename}:${index + 1}: only one '${type}' is allowed per slide.`);
+          if (type === 'header' && slideRegions.body) throw Error(`${filename}:${index + 1}: 'header' must come before 'body'.`);
+          slideRegions[type] = true;
+        }
         if (stack.length && fence.length >= stack.at(-1).length) {
           throw Error(`${filename}:${index + 1}: nested container must use fewer colons than its parent.`);
         }
