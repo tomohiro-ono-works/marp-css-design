@@ -1,0 +1,14 @@
+/* スライド内部の見た目だけ。Python/PPTXとVSCodeプレビューで共通。 */
+.slide {
+  --zs-background:#FFFFFF;
+  --zs-background-gray:#FBFBFB;
+  --zs-ink:#111111;
+  --zs-title-font-size:36px;
+  --zs-card-padding-x:21px;
+  --zs-card-padding-y:18px;
+  --zs-card-radius:9px;
+  --zs-layout-gap:18px;
+  --zs-card-turquoise-light-bg:#EDFDFC;
+  --zs-card-coral-light-bg:#FBE6E5;
+  --zs-hero-left-percent:40%;
+}

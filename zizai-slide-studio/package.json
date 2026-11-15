@@ -1,0 +1,127 @@
+{
+  "name": "zizai-slide-studio",
+  "displayName": "Zizai Slide Studio",
+  "description": "独立インストールのPythonスライドエンジンを呼び出すVSCode UI。Node.jsの別途インストールや外部Pythonパッケージ不要。",
+  "version": "0.6.1",
+  "publisher": "tomohiro-ono-works",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onCommand:zizaiSlides.openPreview",
+    "onCommand:zizaiSlides.newDeck",
+    "onCommand:zizaiSlides.exportHTML",
+    "onCommand:zizaiSlides.exportPDF",
+    "onCommand:zizaiSlides.exportPPTXImage",
+    "onCommand:zizaiSlides.exportPPTXEditable",
+    "onCommand:zizaiSlides.configureEngine",
+    "onCommand:zizaiSlides.checkEngine",
+    "onCommand:zizaiSlides.configurePython"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "zizaiSlides.openPreview",
+        "title": "Zizai Slides: プレビューを開く",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "zizaiSlides.newDeck",
+        "title": "Zizai Slides: 新規スライド作成",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "zizaiSlides.exportHTML",
+        "title": "Zizai Slides: HTML出力"
+      },
+      {
+        "command": "zizaiSlides.exportPDF",
+        "title": "Zizai Slides: PDF出力（Edge/Chrome）"
+      },
+      {
+        "command": "zizaiSlides.exportPPTXImage",
+        "title": "Zizai Slides: PPTX出力（画像・高再現性）"
+      },
+      {
+        "command": "zizaiSlides.exportPPTXEditable",
+        "title": "Zizai Slides: PPTX出力（図形・テキスト編集可能）"
+      },
+      {
+        "command": "zizaiSlides.configureEngine",
+        "title": "Zizai Slides: Pythonエンジンのフォルダーを設定"
+      },
+      {
+        "command": "zizaiSlides.checkEngine",
+        "title": "Zizai Slides: Pythonエンジンの接続確認"
+      },
+      {
+        "command": "zizaiSlides.configurePython",
+        "title": "Zizai Slides: Python実行環境を選択"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "zizaiSlides.openPreview",
+          "when": "resourceExtname == .md",
+          "group": "navigation@5"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "zizaiSlides.openPreview"
+        },
+        {
+          "command": "zizaiSlides.newDeck"
+        },
+        {
+          "command": "zizaiSlides.exportHTML"
+        },
+        {
+          "command": "zizaiSlides.exportPDF"
+        },
+        {
+          "command": "zizaiSlides.exportPPTXImage"
+        },
+        {
+          "command": "zizaiSlides.exportPPTXEditable"
+        },
+        {
+          "command": "zizaiSlides.configureEngine"
+        },
+        {
+          "command": "zizaiSlides.checkEngine"
+        },
+        {
+          "command": "zizaiSlides.configurePython"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Zizai Slide Studio",
+      "properties": {
+        "zizaiSlides.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Python実行ファイル（.venv\\Scripts\\python.exe等）。${workspaceFolder}が使えます。空欄ならワークスペースの.venvを優先して自動探索。"
+        },
+        "zizaiSlides.slideCssPath": {
+          "type": "string",
+          "default": "",
+          "description": "スライド内部専用のCSS。--zs-*デザイントークンと .slide .zs-名前 の自由配置ルールに対応。"
+        },
+        "zizaiSlides.enginePath": {
+          "type": "string",
+          "default": "",
+          "description": "独立したzizai_slidesパッケージを含むエンジンのフォルダー。VSIXにはPythonエンジンは同梱されません。${workspaceFolder}を使用できます。"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;color:var(--vscode-foreground);background:var(--vscode-editor-background);font-family:var(--vscode-font-family),Arial,sans-serif}
+#app{height:100%;display:flex;flex-direction:column;min-width:0}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 12px;border-bottom:1px solid var(--vscode-panel-border,#454545);background:var(--vscode-sideBar-background);min-height:49px}
+.brand{font-weight:700;font-size:13px;margin-right:auto;white-space:nowrap;max-width:42%;overflow:hidden;text-overflow:ellipsis}
+.toolbar button{cursor:pointer;border:1px solid var(--vscode-button-border,var(--vscode-panel-border,#555));border-radius:5px;
+  color:var(--vscode-button-secondaryForeground,var(--vscode-foreground));background:var(--vscode-button-secondaryBackground,var(--vscode-editor-background));padding:5px 9px;font-size:12px}
+.toolbar button:hover{background:var(--vscode-button-secondaryHoverBackground,var(--vscode-list-hoverBackground))}
+.toolbar button:disabled{opacity:.4;cursor:default}
+.toolbar .primary{color:var(--vscode-button-foreground);background:var(--vscode-button-background)}
+#zoom-label,#position{font-size:12px;white-space:nowrap;color:var(--vscode-descriptionForeground)}
+.body{flex:1;display:flex;min-height:0;min-width:0}
+.sidebar{flex:0 0 160px;overflow:auto;border-right:1px solid var(--vscode-panel-border,#454545);padding:12px 8px}
+.sidebar-title{font-size:11px;font-weight:700;letter-spacing:.09em;margin:0 0 10px 6px;opacity:.65}
+.slide-item{display:block;cursor:pointer;width:100%;text-align:left;border:1px solid transparent;background:transparent;color:inherit;
+  border-radius:7px;padding:11px 8px;margin-bottom:6px;font-size:12px;line-height:1.35}
+.slide-item:hover{background:var(--vscode-list-hoverBackground)}
+.slide-item.active{border-color:var(--vscode-focusBorder);background:var(--vscode-list-activeSelectionBackground);color:var(--vscode-list-activeSelectionForeground)}
+.slide-index{font-size:11px;opacity:.65;display:block;margin-bottom:4px}
+.main{flex:1;position:relative;overflow:hidden;min-width:0;background:var(--vscode-editor-background)}
+#stage{position:absolute;inset:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:22px}
+#slide-host{flex:none;position:relative}
+#slide-host>.slide{transform-origin:top left;box-shadow:0 6px 24px rgba(0,0,0,.24);position:absolute;top:0;left:0}
+#empty{font-size:14px;opacity:.8;max-width:480px;padding:24px;text-align:center;line-height:1.7}
+#status{font-size:12px;min-height:23px;padding:5px 12px;border-top:1px solid var(--vscode-panel-border,#444);color:var(--vscode-descriptionForeground)}
+#status.error{color:var(--vscode-errorForeground)}
+@media(max-width:650px){.sidebar{flex-basis:92px}.slide-item{font-size:10px}.toolbar{gap:4px;padding:6px}.toolbar button{padding:5px}.brand{font-size:11px}}

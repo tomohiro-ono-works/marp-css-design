@@ -1,0 +1,23 @@
+/* Slides only. Example styling based on the supplied two-column service slide. */
+.slide {
+  --zs-title-font-size: 20px;
+  --zs-h2-font-size: 27px;
+  --zs-body-font-size: 18px;
+  --zs-card-font-size: 18px;
+  --zs-title-mark-width: 3px;
+  --zs-canvas-padding-x: 56px;
+  --zs-canvas-padding-top: 42px;
+  --zs-layout-gap: 18px;
+  --zs-card-padding-x: 20px;
+  --zs-card-padding-y: 20px;
+  --zs-card-radius: 3px;
+  --zs-card-gray-light-bg: #F5F5F5;
+  --zs-card-gray-light-ink: #3F4447;
+  --zs-card-turquoise-light-bg: #E8F9F9;
+  --zs-card-turquoise-light-ink: #007B7A;
+  --zs-navy: #008F90;
+  --zs-page-number-font-size: 12px;
+  --zs-page-number-color: #444444;
+  --zs-page-number-right: 38px;
+  --zs-page-number-bottom: 17px;
+}

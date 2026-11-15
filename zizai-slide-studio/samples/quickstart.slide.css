@@ -1,0 +1,11 @@
+/* 本サンプル専用のスライドCSS。VSCode UIには適用されません。 */
+.slide {
+  --zs-background: #ffffff;
+  --zs-ink: #171b25;
+  --zs-header-height: 140px;
+  --zs-header-body-gap: 14px;
+  --zs-layout-gap: 18px;
+  --zs-card-radius: 9px;
+  --zs-card-turquoise-light-bg: #edfaf8;
+  --zs-card-aqua-light-bg: #eaf4fc;
+}
