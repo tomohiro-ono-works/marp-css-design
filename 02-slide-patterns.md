@@ -66,14 +66,22 @@ footer: 'Marp Pattern Kit / 2026'
 
 <!-- _class: background white -->
 
+<div class="slide-header">
+
 # 04｜設計の基本原則
 
 複数の要点を、順序に依存しない形で説明するときに利用します。
+
+</div>
+
+<div class="slide-body">
 
 - 目的と読者を明確にする
 - 情報の構造を先に整理する
 - 見た目は共通テーマで管理する
 - プレビューで読みやすさを確認する
+
+</div>
 
 ---
 
@@ -189,9 +197,15 @@ footer: 'Marp Pattern Kit / 2026'
 
 <!-- _class: background gray -->
 
+<div class="slide-header">
+
 # 08｜複数案を比較する
 
 三つの案・選択肢を横並びにして特徴を比較します。
+
+</div>
+
+<div class="slide-body">
 
 <div class="box horizontal tall">
 
@@ -228,6 +242,8 @@ footer: 'Marp Pattern Kit / 2026'
 - 複雑すぎると読みにくい
 
 `関係性`
+
+</div>
 
 </div>
 

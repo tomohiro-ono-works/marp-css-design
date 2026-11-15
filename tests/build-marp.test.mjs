@@ -52,3 +52,31 @@ test('validate container syntax', () => {
   assert.throws(() => compile('::: card nope\n:::'), /unsupported modifier/);
   assert.throws(() => compile('::: card\nBody'), /unclosed container/);
 });
+
+test('slide regions compile without changing Markdown', () => {
+  const result = compile('::: header\n# Title\n\nLead\n:::\n::: body\n\n- One\n- Two\n:::');
+  assert.match(result, /<div class="slide-header">\n\n# Title/);
+  assert.match(result, /<div class="slide-body">\n\n- One/);
+  assert.equal((result.match(/<\/div>/g) || []).length, 2);
+});
+test('slide body allows nested horizontal cards and labels', () => {
+  const doc = '::: header\n# H\n:::\n::::: body\n:::: h\n::: card aqua-light\n[OK]{.coral-dark}\n:::\n::::\n:::::';
+  const out = compile(doc);
+  assert.match(out, /class="slide-body"/);
+  assert.match(out, /class="box horizontal"/);
+  assert.match(out, /class="card tone-aqua-light"/);
+  assert.match(out, /class="tone-chip tone-coral-dark"/);
+});
+test('slide regions are independent per slide; literal examples are preserved', () => {
+  const doc = '::: header\n# One\n:::\n::: body\nA\n:::\n---\n::: header\n# Two\n:::\n::: body\nB\n:::';
+  assert.equal((compile(doc).match(/class="slide-header"/g) || []).length, 2);
+  assert.equal((compile(doc).match(/class="slide-body"/g) || []).length, 2);
+  assert.equal(compile('~~~md\n::: header\n::: body\n~~~').trimEnd(), '~~~md\n::: header\n::: body\n~~~');
+});
+test('reject invalid slide regions', () => {
+  assert.throws(() => compile('::: body\nA\n:::\n::: header\nB\n:::'), /before 'body'/);
+  assert.throws(() => compile('::: header\nA\n:::\n::: header\nB\n:::'), /only one 'header'/);
+  assert.throws(() => compile(':::: card\n::: header\n:::\n::::'), /must be top-level/);
+  assert.throws(() => compile('::: body hover\n:::'), /do not accept modifiers/);
+  assert.throws(() => compile('::: header\n# A\n---'), /slide separator/);
+});
